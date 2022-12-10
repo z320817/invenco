@@ -1,7 +1,7 @@
 interface JWT {
-  _id: string;
-  token: string;
+  id: string;
   expiresIn: number;
+  role: string;
 }
 
 export default JWT;

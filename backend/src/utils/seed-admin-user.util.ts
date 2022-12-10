@@ -1,5 +1,5 @@
 import * as bcrypt from "bcrypt";
-import UserModel from "modules/users/user.model";
+import UserModel from "../modules/users/user.model";
 
 const SeedAdminUserData = async () => {
   const {
@@ -15,6 +15,7 @@ const SeedAdminUserData = async () => {
 
   const adminUser = new UserModel({
     email: ME_CONFIG_BASICAUTH_USERNAME,
+    role: "admin",
     password: hash,
   });
 

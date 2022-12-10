@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 import AuthenticationTokenMissing from "../providers/exceptions/authentication/auth-token-missing.exception";
 import AuthenticationTokenInvalid from "../providers/exceptions/authentication/auth-token-invalid.exception";
-import JWT from "../providers/interfaces/jwt.interface";
 import EmployeeModel from "../modules/employees/employee.model";
-import { AuthorizationRequest } from "providers/interfaces/authorization.interface";
+import AuthorizationRequest from "../providers/interfaces/authorization.interface";
+import JWT from "../providers/interfaces/jwt.interface";
 
 const AuthMiddleware = async (
   request: Request,

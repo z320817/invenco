@@ -1,6 +1,8 @@
 import { JwtPayload } from "jsonwebtoken";
 import { Request } from "express";
 
-export interface AuthorizationRequest extends Request {
+interface AuthorizationRequest extends Request {
   token: string | JwtPayload;
 }
+
+export default AuthorizationRequest;

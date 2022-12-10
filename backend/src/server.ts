@@ -2,7 +2,7 @@ import "dotenv/config";
 import App from "./app";
 import EmployeesController from "./modules/employees/employee.controller";
 import CheckEnvironment from "./utils/environment.util";
-import SeedAdminUserData from "utils/seed-admin-user.util";
+import SeedAdminUserData from "./utils/seed-admin-user.util";
 
 CheckEnvironment();
 SeedAdminUserData();
