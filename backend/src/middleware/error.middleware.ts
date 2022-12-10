@@ -1,11 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-const ErrorMiddleware = (
-  error: any,
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+const ErrorMiddleware = (error: any, _: Request, response: Response) => {
   const status = error.status || 500;
   const message = error.message || "Something went wrong";
   response.status(status).send({
