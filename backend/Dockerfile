@@ -4,4 +4,4 @@ COPY . .
 RUN npm install
 EXPOSE 8500
 
-ENTRYPOINT ["npm run dev"]
+CMD [ "npm", "run", "dev" ]

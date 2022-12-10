@@ -5,6 +5,6 @@ import UsersController from "./controllers/users/users.controller";
 
 CheckEnvironment();
 
-const app = new App([new UsersController()], process.env.PORT);
+const app = new App([new UsersController()], process.env.BACKEND_PORT);
 
 app.listen();
