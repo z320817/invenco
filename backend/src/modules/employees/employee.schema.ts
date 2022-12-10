@@ -1,17 +1,19 @@
 import * as mongoose from "mongoose";
 
-const addressSchema = new mongoose.Schema({
+const EmployeeAddressSchema = new mongoose.Schema({
   city: String,
   country: String,
   street: String,
 });
 
-const userSchema = new mongoose.Schema(
+const EmployeeSchema = new mongoose.Schema(
   {
-    address: addressSchema,
-    email: String,
     firstName: String,
     lastName: String,
+    jobTitle: String,
+    address: EmployeeAddressSchema,
+    email: String,
+    phoneNumber: String,
     password: {
       type: String,
       get: (): undefined => undefined,
@@ -25,12 +27,16 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.virtual("fullName").get(function () {
+EmployeeSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-userSchema.virtual("posts", {
-  ref: "Post",
-  localField: "_id",
-  foreignField: "author",
+EmployeeSchema.virtual("contacts").get(function () {
+  return {
+    email: this.email,
+    phoneNumber: this.phoneNumber,
+    address: this.address,
+  };
 });
+
+export default EmployeeSchema;
