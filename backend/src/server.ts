@@ -1,6 +1,10 @@
+import "dotenv/config";
+import CheckEnvironment from "./utils/environment.util";
 import App from "./app";
 import UsersController from "./controllers/users/users.controller";
 
-const app = new App([new UsersController()], 5000);
+CheckEnvironment();
+
+const app = new App([new UsersController()], process.env.PORT);
 
 app.listen();
