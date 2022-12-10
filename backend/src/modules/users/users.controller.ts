@@ -2,8 +2,8 @@ import * as express from "express";
 import User from "./users.interface";
 
 class UsersController {
-  private path = "/users";
-  private router = express.Router();
+  public path = "/users";
+  public router = express.Router();
 
   private users: User[] = [
     {

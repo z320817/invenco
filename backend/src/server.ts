@@ -1,7 +1,7 @@
 import "dotenv/config";
 import CheckEnvironment from "./utils/environment.util";
 import App from "./app";
-import UsersController from "./controllers/users/users.controller";
+import UsersController from "./modules/users/users.controller";
 
 CheckEnvironment();
 
