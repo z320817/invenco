@@ -1,4 +1,4 @@
-import HttpException from "../http.exception";
+import HttpException from "../general/http.exception";
 
 class NotAuthorized extends HttpException {
   constructor() {

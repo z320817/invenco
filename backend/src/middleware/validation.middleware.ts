@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { plainToInstance } from "class-transformer";
 import { validate, ValidationError } from "class-validator";
 import { RequestHandler } from "express";
-import HttpException from "../providers/exceptions/http.exception";
+import HttpException from "../providers/exceptions/general/http.exception";
 
 const ValidationMiddleware = (
   type: any,

@@ -3,6 +3,8 @@ import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import ErrorMiddleware from "./middleware/error.middleware";
 import Controller from "./providers/interfaces/controllers.interface";
+import ServerSelectionError from "providers/exceptions/general/server-selection.exception";
+import HttpException from "providers/exceptions/general/http.exception";
 
 class App {
   public app: express.Application;
@@ -46,9 +48,18 @@ class App {
       MONGO_PORT,
       MONGO_INITDB_DATABASE,
     } = process.env;
-    mongoose.connect(
-      `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/?authSource=${MONGO_INITDB_DATABASE}`
-    );
+
+    try {
+      mongoose.connect(
+        `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/?authSource=${MONGO_INITDB_DATABASE}`
+      );
+    } catch (error) {
+      if (error.status && error.message) {
+        new HttpException(500, "Internal Server Error");
+      } else {
+        throw new ServerSelectionError();
+      }
+    }
   }
 }
 

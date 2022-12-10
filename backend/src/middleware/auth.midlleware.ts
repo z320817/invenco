@@ -4,7 +4,7 @@ import AuthenticationTokenMissing from "../providers/exceptions/authentication/a
 import AuthenticationTokenInvalid from "../providers/exceptions/authentication/auth-token-invalid.exception";
 import JWT from "../providers/interfaces/jwt.interface";
 import EmployeeModel from "../modules/employees/employee.model";
-import HttpException from "../providers/exceptions/http.exception";
+import HttpException from "../providers/exceptions/general/http.exception";
 
 const AuthMiddleware = async (
   request: Request,
