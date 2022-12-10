@@ -2,9 +2,9 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import ErrorMiddleware from "./middleware/error.middleware";
+import ServerSelectionError from "./providers/exceptions/general/server-selection.exception";
+import HttpException from "./providers/exceptions/general/http.exception";
 import Controller from "./providers/interfaces/controllers.interface";
-import ServerSelectionError from "providers/exceptions/general/server-selection.exception";
-import HttpException from "providers/exceptions/general/http.exception";
 
 class App {
   public app: express.Application;
