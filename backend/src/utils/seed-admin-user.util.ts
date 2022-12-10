@@ -23,25 +23,24 @@ const UserSchema = new mongoose.Schema(
 
 const UserModel = mongoose.model<User & mongoose.Document>("User", UserSchema);
 
-const SeedAdminUserData = () => {
+const SeedAdminUserData = async () => {
   const {
     ME_CONFIG_BASICAUTH_USERNAME,
     ME_CONFIG_BASICAUTH_PASSWORD,
     BACKEND_BCRYPT_SALT,
   } = process.env;
 
-  bcrypt.hash(
+  const hash = await bcrypt.hash(
     ME_CONFIG_BASICAUTH_PASSWORD,
-    BACKEND_BCRYPT_SALT,
-    async (_, hash) => {
-      const adminUser = new UserModel({
-        email: ME_CONFIG_BASICAUTH_USERNAME,
-        password: hash,
-      });
-
-      await adminUser.save();
-    }
+    BACKEND_BCRYPT_SALT
   );
+
+  const adminUser = new UserModel({
+    email: ME_CONFIG_BASICAUTH_USERNAME,
+    password: hash,
+  });
+
+  await adminUser.save();
 };
 
 export default SeedAdminUserData;
