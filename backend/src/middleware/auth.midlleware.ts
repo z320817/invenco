@@ -1,4 +1,4 @@
-import * as jwt from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import AuthenticationTokenMissing from "../providers/exceptions/authentication/auth-token-missing.exception";
 import AuthenticationTokenInvalid from "../providers/exceptions/authentication/auth-token-invalid.exception";
@@ -18,11 +18,11 @@ const AuthMiddleware = async (
   }
 
   try {
-    const decodedToken = jwt.verify(
+    const decodedToken = verify(
       authToken,
       process.env.BACKEND_JWT_SECRET
     ) as JWT;
-    const id = decodedToken._id;
+    const id = decodedToken.id;
     const employee = await EmployeeModel.findById(id);
 
     if (employee) {
