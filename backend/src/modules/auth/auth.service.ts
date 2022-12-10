@@ -3,8 +3,8 @@ import { sign } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import AuthenticationCredentialsInvalid from "../../providers/exceptions/authentication/auth-credentials-invalid.exception";
 import HttpException from "../../providers/exceptions/general/http.exception";
-import UserModel from "modules/users/user.model";
-import User from "modules/users/user.interface";
+import UserModel from "../../modules/users/user.model";
+import User from "../../modules/users/user.interface";
 import AuthDTO from "./auth.dto";
 
 class AuthService {
