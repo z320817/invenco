@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import HttpException from "providers/exceptions/general/http.exception";
+import HttpException from "../../providers/exceptions/general/http.exception";
 import EmployeeNotFound from "../../providers/exceptions/employees/employee-not-found.exception";
 import CreateEmployeeDTO from "./employee.dto";
 import Employee from "./employee.interface";

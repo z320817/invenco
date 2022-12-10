@@ -3,9 +3,9 @@ import { Request, Response, NextFunction } from "express";
 import AuthenticationTokenMissing from "../providers/exceptions/authentication/auth-token-missing.exception";
 import AuthenticationTokenInvalid from "../providers/exceptions/authentication/auth-token-invalid.exception";
 import AuthorizationRequest from "../providers/interfaces/authorization.interface";
-import UserModel from "modules/users/user.model";
+import HttpException from "../providers/exceptions/general/http.exception";
 import JWT from "../providers/interfaces/jwt.interface";
-import HttpException from "providers/exceptions/general/http.exception";
+import UserModel from "../modules/users/user.model";
 
 const AuthMiddleware = async (
   request: Request,
@@ -33,7 +33,7 @@ const AuthMiddleware = async (
       next(new AuthenticationTokenInvalid());
     }
   } catch {
-    next(new HttpException(500, "Internal Server Error: Autharization error"));
+    next(new HttpException(500, "Internal Server Error: Authentication error"));
   }
 };
 

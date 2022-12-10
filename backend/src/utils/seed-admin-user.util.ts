@@ -1,5 +1,5 @@
 import * as bcrypt from "bcrypt";
-import HttpException from "providers/exceptions/general/http.exception";
+import HttpException from "../providers/exceptions/general/http.exception";
 import UserModel from "../modules/users/user.model";
 
 const SeedAdminUserData = async () => {
