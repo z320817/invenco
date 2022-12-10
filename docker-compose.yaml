@@ -1,0 +1,90 @@
+version: "3.9"
+networks:
+  mongo:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24
+  proxy:
+    ipam:
+      driver: default
+      config:
+        - subnet: 134.22.0.0/24
+services:
+  mongo:
+    image: mongo:6.0.2
+    container_name: mongo
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ./mongodb/dev-volume:/data/db
+      - ./mongodb/docker_scripts/:/docker-entrypoint-initdb.d
+    ports:
+      - 27017:27017
+    networks:
+      mongo:
+        ipv4_address: 172.22.0.2
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=${MONGO_INITDB_DATABASE}
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=${DATABASE_USER}
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=${DATABASE_PASSWORD}
+      - ME_CONFIG_MONGODB_PORT=${MONGO_PORT}
+      - ME_CONFIG_MONGODB_SERVER=${MONGO_HOST}
+      - ME_CONFIG_REQUEST_SIZE=${ME_CONFIG_REQUEST_SIZE}
+    links:
+      - mongo
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    networks:
+      mongo:
+        ipv4_address: 172.22.0.3
+  backend:
+    image: backend:latest
+    build: ./backend
+    container_name: backend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - 8500:8500
+    networks:
+      mongo:
+        ipv4_address: 172.22.0.4
+  proxy:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/brochange.com.conf:/etc/nginx/conf.d/brochange.com.conf
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      mongo:
+        ipv4_address: 172.22.0.5
