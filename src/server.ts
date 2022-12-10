@@ -1,11 +1,6 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
+import App from "./app";
+import UsersController from "./controllers/users/users.controller";
 
-const app = express();
-app.use(bodyParser.json());
+const app = new App([new UsersController()], 5000);
 
-app.get("/", (request, response) => {
-  response.send(request.body);
-});
-
-app.listen(5000);
+app.listen();
