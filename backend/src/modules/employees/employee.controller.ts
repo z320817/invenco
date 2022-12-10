@@ -7,7 +7,7 @@ import EmployeeModel from "./employee.model";
 import Employee from "./employee.interface";
 
 class EmployeesController {
-  public path = "/users";
+  public path = "/employee";
   public router = Router();
   private employeeModel = EmployeeModel;
 
@@ -16,18 +16,19 @@ class EmployeesController {
   }
 
   private createRoutes() {
-    this.router.get(this.path, this.getAllEmployees);
-    this.router.get(`${this.path}/:id`, this.getEmployeeById);
     this.router
-      .all(`${this.path}/*`, AuthMiddleware)
+      .get(this.path, AuthMiddleware, this.getAllEmployees)
+      .get(`${this.path}/:id`, AuthMiddleware, this.getEmployeeById)
       .patch(
         `${this.path}/:id`,
+        AuthMiddleware,
         ValidationMiddleware(CreateEmployeeDTO, true),
         this.updateEmployee
       )
-      .delete(`${this.path}/:id`, this.deleteEmployee)
+      .delete(`${this.path}/:id`, AuthMiddleware, this.deleteEmployee)
       .post(
         this.path,
+        AuthMiddleware,
         ValidationMiddleware(CreateEmployeeDTO),
         this.createEmployee
       );
