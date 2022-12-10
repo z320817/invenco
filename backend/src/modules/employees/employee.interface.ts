@@ -1,4 +1,4 @@
-interface User {
+interface Employee {
   firstName: string;
   lastName: string;
   jobTitle: string;
@@ -7,4 +7,4 @@ interface User {
   password: string;
 }
 
-export default User;
+export default Employee;

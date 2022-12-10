@@ -1,11 +1,11 @@
 import * as express from "express";
-import User from "./users.interface";
+import Employee from "./employee.interface";
 
-class UsersController {
+class EmployeesController {
   public path = "/users";
   public router = express.Router();
 
-  private users: User[] = [
+  private employee: Employee[] = [
     {
       firstName: "string",
       lastName: "string",
@@ -21,25 +21,25 @@ class UsersController {
   }
 
   private createRoutes() {
-    this.router.get(this.path, this.getAllUsers);
-    this.router.post(this.path, this.createUser);
+    this.router.get(this.path, this.getAllEmployees);
+    this.router.post(this.path, this.createEmployee);
   }
 
-  private getAllUsers = (
+  private getAllEmployees = (
     request: express.Request,
     response: express.Response
   ) => {
-    response.send(this.users);
+    response.send(this.employee);
   };
 
-  private createUser = (
+  private createEmployee = (
     request: express.Request,
     response: express.Response
   ) => {
-    const user: User = request.body;
-    this.users.push(user);
-    response.send(user);
+    const employee: Employee = request.body;
+    this.employee.push(employee);
+    response.send(employee);
   };
 }
 
-export default UsersController;
+export default EmployeesController;

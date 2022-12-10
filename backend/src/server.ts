@@ -1,10 +1,10 @@
 import "dotenv/config";
 import CheckEnvironment from "./utils/environment.util";
 import App from "./app";
-import UsersController from "./modules/users/users.controller";
+import EmployeesController from "./modules/employees/employee.controller";
 
 CheckEnvironment();
 
-const app = new App([new UsersController()], process.env.BACKEND_PORT);
+const app = new App([new EmployeesController()], process.env.BACKEND_PORT);
 
 app.listen();
