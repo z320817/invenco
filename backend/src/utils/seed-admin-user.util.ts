@@ -15,13 +15,17 @@ const SeedAdminUserData = async () => {
       BACKEND_BCRYPT_SALT
     );
 
-    const adminUser = new UserModel({
-      email: ME_CONFIG_BASICAUTH_USERNAME,
-      role: "admin",
-      password: hash,
-    });
+    const user = await UserModel.find({ email: ME_CONFIG_BASICAUTH_USERNAME });
 
-    await adminUser.save();
+    if (!user) {
+      const adminUser = new UserModel({
+        email: ME_CONFIG_BASICAUTH_USERNAME,
+        role: "admin",
+        password: hash,
+      });
+
+      await adminUser.save();
+    }
   } catch {
     throw new HttpException(
       500,
