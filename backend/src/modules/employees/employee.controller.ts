@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction, Router } from "express";
-import AuthMiddleware from "middleware/auth.midlleware";
-import EmployeeNotFound from "providers/exceptions/employees/employee-not-found.exception";
+import AuthMiddleware from "../../middleware/auth.midlleware";
+import ValidationMiddleware from "../../middleware/validation.middleware";
+import EmployeeNotFound from "../../providers/exceptions/employees/employee-not-found.exception";
 import CreateEmployeeDTO from "./employee.dto";
 import EmployeeModel from "./employee.model";
 import Employee from "./employee.interface";
-import ValidationMiddleware from "middleware/validation.middleware";
 
 class EmployeesController {
   public path = "/users";
