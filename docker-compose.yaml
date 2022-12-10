@@ -5,11 +5,6 @@ networks:
       driver: default
       config:
         - subnet: 172.22.0.0/24
-  proxy:
-    ipam:
-      driver: default
-      config:
-        - subnet: 134.22.0.0/24
 services:
   mongo:
     image: mongo:6.0.2
@@ -26,8 +21,8 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     volumes:
-      - ./mongodb/dev-volume:/data/db
-      - ./mongodb/docker_scripts/:/docker-entrypoint-initdb.d
+      - ./mongo/dev-volume:/data/db
+      - ./mongo/docker_scripts/:/docker-entrypoint-initdb.d
     ports:
       - 27017:27017
     networks:
@@ -65,6 +60,7 @@ services:
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - BACKEND_PORT=${BACKEND_PORT}
     restart: unless-stopped
     depends_on:
       - mongo
@@ -75,16 +71,3 @@ services:
     networks:
       mongo:
         ipv4_address: 172.22.0.4
-  proxy:
-    image: nginx:alpine
-    container_name: nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/brochange.com.conf:/etc/nginx/conf.d/brochange.com.conf
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      mongo:
-        ipv4_address: 172.22.0.5
