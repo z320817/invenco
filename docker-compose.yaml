@@ -29,7 +29,7 @@ services:
       mongo:
         ipv4_address: 172.22.0.2
   mongo-express:
-    image: mongo-express:0.54
+    image: mongo-express
     container_name: mongo-express
     environment:
       - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
@@ -43,6 +43,8 @@ services:
     links:
       - mongo
     restart: unless-stopped
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
     networks:
