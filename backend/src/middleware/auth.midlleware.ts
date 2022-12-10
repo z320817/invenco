@@ -4,7 +4,6 @@ import AuthenticationTokenMissing from "../providers/exceptions/authentication/a
 import AuthenticationTokenInvalid from "../providers/exceptions/authentication/auth-token-invalid.exception";
 import JWT from "../providers/interfaces/jwt.interface";
 import EmployeeModel from "../modules/employees/employee.model";
-import HttpException from "../providers/exceptions/general/http.exception";
 import { AuthorizationRequest } from "providers/interfaces/authorization.interface";
 
 const AuthMiddleware = async (
@@ -19,27 +18,21 @@ const AuthMiddleware = async (
   }
 
   try {
-    const decoded = jwt.verify(
+    const decodedToken = jwt.verify(
       authToken,
       process.env.BACKEND_JWT_SECRET
     ) as JWT;
-    const id = decoded._id;
+    const id = decodedToken._id;
     const employee = await EmployeeModel.findById(id);
 
     if (employee) {
-      (request as AuthorizationRequest).token = decoded;
+      (request as AuthorizationRequest).token = decodedToken;
       next();
     } else {
       next(new AuthenticationTokenInvalid());
     }
-  } catch (error) {
-    if (error.status && error.message) {
-      next(new HttpException(error.status, error.message));
-    } else {
-      next(
-        new HttpException(500, "Internal Server Error: Authorization Error")
-      );
-    }
+  } catch {
+    next(new AuthenticationTokenInvalid());
   }
 };
 
