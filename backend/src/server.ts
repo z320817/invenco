@@ -10,7 +10,7 @@ import SeedAdminUserData from "./utils/seed-admin-user.util";
 CheckEnvironment();
 SeedAdminUserData();
 
-const app = new App(
+const server = new App(
   [
     new EmployeesController(),
     new AuthController(),
@@ -19,4 +19,6 @@ const app = new App(
   process.env.BACKEND_PORT
 );
 
-app.listen();
+server.listen();
+
+export default server;
