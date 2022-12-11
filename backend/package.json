@@ -9,8 +9,12 @@
   },
   "author": "Yosef Shulman",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.12.1",
+    "npm": ">=8.19.2"
+  },
+  "engineStrict": true,
   "dependencies": {
-    "@types/jsonwebtoken": "^8.5.9",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "class-transformer": "^0.5.1",
@@ -26,6 +30,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/express": "^4.17.14"
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9"
   }
 }
