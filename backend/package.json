@@ -4,7 +4,7 @@
   "description": "Invenco coding exercise",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node ./src/server.ts --trace-deprecation"
+    "dev": "ts-node ./src/server.ts"
   },
   "author": "Yosef Shulman",
   "license": "MIT",
