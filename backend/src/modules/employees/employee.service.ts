@@ -1,6 +1,8 @@
+import * as bcrypt from "bcrypt";
 import { Request, Response, NextFunction } from "express";
 import HttpException from "../../providers/exceptions/general/http.exception";
 import EmployeeNotFound from "../../providers/exceptions/employees/employee-not-found.exception";
+import EmployeeAlreadyExistsException from "../../providers/exceptions/employees/employee-already-exists.exception";
 import CreateEmployeeDTO from "./dto/employee.dto";
 import Employee from "./employee.interface";
 import EmployeeModel from "./employee.model";
@@ -85,12 +87,25 @@ class EmployeeService {
   ) => {
     try {
       const employeeData: CreateEmployeeDTO = request.body;
-      const createdEmployee = new this.employeeModel({
-        ...employeeData,
+      const employee = await this.employeeModel.findOne({
+        email: employeeData.email,
       });
-      const savedEmployee: Employee = await createdEmployee.save();
 
-      response.send(savedEmployee);
+      if (!employee) {
+        const { BACKEND_BCRYPT_SALT } = process.env;
+        employeeData.password = await bcrypt.hash(
+          employeeData.password,
+          BACKEND_BCRYPT_SALT
+        );
+        const createdEmployee = new this.employeeModel({
+          ...employeeData,
+        });
+        const savedEmployee: Employee = await createdEmployee.save();
+
+        response.send(savedEmployee);
+      } else {
+        next(new EmployeeAlreadyExistsException(employeeData.email));
+      }
     } catch {
       next(
         new HttpException(500, "Internal Server Error: Create Employee Error")

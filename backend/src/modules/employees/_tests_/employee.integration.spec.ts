@@ -96,7 +96,7 @@ describe("POST, GET, PATCH, DELETE /employee", () => {
           country: "Israel",
           street: "Frank 15",
         },
-        email: "yosef.shulman@protonmail.com",
+        email: "test.employee@invenco.com",
         phoneNumber: "+972536373237",
         password: "12345",
       });
