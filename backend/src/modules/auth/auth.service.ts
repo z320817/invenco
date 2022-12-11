@@ -8,7 +8,7 @@ import User from "../../modules/users/user.interface";
 import AuthDTO from "./auth.dto";
 
 class AuthService {
-  private user = UserModel;
+  private userModel = UserModel;
 
   constructor() {}
 
@@ -42,7 +42,7 @@ class AuthService {
   ) => {
     try {
       const authData: AuthDTO = request.body;
-      const user = await this.user.findOne({ email: authData.email });
+      const user = await this.userModel.findOne({ email: authData.email });
       const token = this.createToken(user);
       const isPasswordMatching = await bcrypt.compare(
         authData.password,

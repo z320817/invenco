@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
 import * as request from "supertest";
+import mongoose from "mongoose";
+import RemoveAdminUserData from "../../../utils/remove-admin-user.util";
+import SeedAdminUserData from "../../../utils/seed-admin-user.util";
 import server from "../../../server";
 
 describe("POST, GET, PATCH, DELETE /*", () => {
   beforeAll(async () => {
+    await SeedAdminUserData();
     const { ME_CONFIG_BASICAUTH_USERNAME, ME_CONFIG_BASICAUTH_PASSWORD } =
       process.env;
     const response = await request(server.app).post("/auth/login").send({
@@ -11,6 +14,7 @@ describe("POST, GET, PATCH, DELETE /*", () => {
       password: ME_CONFIG_BASICAUTH_PASSWORD,
     });
   });
+
   it("should return forbidden exception on any route other then registered", async () => {
     const responceForbiddenPost = await request(server.app).post("/123");
     const responceForbiddenGet = await request(server.app).get("/123");
@@ -26,6 +30,7 @@ describe("POST, GET, PATCH, DELETE /*", () => {
 });
 
 afterAll(async () => {
+  await RemoveAdminUserData();
   await mongoose.connection.close();
   server.server.close();
 });

@@ -1,9 +1,15 @@
-import mongoose from "mongoose";
 import * as request from "supertest";
+import mongoose from "mongoose";
+import RemoveAdminUserData from "../../../utils/remove-admin-user.util";
+import SeedAdminUserData from "../../../utils/seed-admin-user.util";
 import server from "../../../server";
 
 describe("POST /auth/login", () => {
-  it("should fail with wrong credentials", async () => {
+  beforeAll(async () => {
+    await SeedAdminUserData();
+  });
+
+  it("should fail to log in with wrong credentials", async () => {
     const { ME_CONFIG_BASICAUTH_USERNAME } = process.env;
     const responce = await request(server.app).post("/auth/login").send({
       email: ME_CONFIG_BASICAUTH_USERNAME,
@@ -37,6 +43,7 @@ describe("POST /auth/login", () => {
 });
 
 afterAll(async () => {
+  await RemoveAdminUserData();
   await mongoose.connection.close();
   server.server.close();
 });
