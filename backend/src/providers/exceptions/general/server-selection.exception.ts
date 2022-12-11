@@ -1,9 +1,9 @@
 import HttpException from "./http.exception";
 
-class ServerSelectionError extends HttpException {
+class MongoServerSelectionError extends HttpException {
   constructor() {
-    super(400, `Connection timed out`);
+    super(400, `DB connection timed out`);
   }
 }
 
-export default ServerSelectionError;
+export default MongoServerSelectionError;

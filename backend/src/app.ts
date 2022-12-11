@@ -2,8 +2,7 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import ErrorMiddleware from "./middleware/error.middleware";
-import ServerSelectionError from "./providers/exceptions/general/server-selection.exception";
-import HttpException from "./providers/exceptions/general/http.exception";
+import MongoServerSelectionError from "./providers/exceptions/general/server-selection.exception";
 import Controller from "./providers/interfaces/controllers.interface";
 
 class App {
@@ -53,12 +52,8 @@ class App {
       mongoose.connect(
         `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_INITDB_DATABASE}?authSource=${MONGO_INITDB_DATABASE}`
       );
-    } catch (error) {
-      if (error.status && error.message) {
-        new HttpException(500, "Internal Server Error");
-      } else {
-        throw new ServerSelectionError();
-      }
+    } catch {
+      throw new MongoServerSelectionError();
     }
   }
 }
