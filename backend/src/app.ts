@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
-import ErrorMiddleware from "./middleware/error.middleware";
+import ErrorMiddleware from "./middleware/error-handling.middleware";
 import ErrorLoggerMiddleware from "./middleware/error-logger.middleware";
 import ForbiddedPathMiddleware from "./middleware/forbidden-routes.middleware";
 import MongoServerSelectionError from "./providers/exceptions/general/server-selection.exception";
