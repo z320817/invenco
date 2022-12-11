@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import HttpException from "providers/exceptions/general/http.exception";
+import HttpException from "../providers/exceptions/general/http.exception";
 
 const ErrorMiddleware = (
   error: HttpException,
@@ -8,8 +8,9 @@ const ErrorMiddleware = (
   next: NextFunction
 ) => {
   const status = error.status || 500;
-  const message = error.message || "Something went wrong";
-  response.status(status).send({
+  const message =
+    error.message || "Internal Server Error: Error Middleware Response";
+  response.header("Content-Type", "application/json").status(status).send({
     message,
     status,
   });

@@ -2,6 +2,8 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import ErrorMiddleware from "./middleware/error.middleware";
+import ErrorLoggerMiddleware from "./middleware/error-logger.middleware";
+import ForbiddedPathMiddleware from "./middleware/forbidden-routes.middleware";
 import MongoServerSelectionError from "./providers/exceptions/general/server-selection.exception";
 import Controller from "./providers/interfaces/controllers.interface";
 
@@ -27,6 +29,8 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(bodyParser.json());
+    this.app.use(ErrorLoggerMiddleware);
+    this.app.use(ForbiddedPathMiddleware);
   }
 
   private initializeControllers(controllers: Controller[]) {
