@@ -4,7 +4,7 @@
   "description": "Invenco coding exercise",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "ts-node ./src/server.ts"
   },
   "author": "Yosef Shulman",
@@ -31,6 +31,9 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.14",
-    "@types/jsonwebtoken": "^8.5.9"
+    "@types/jest": "^29.2.4",
+    "@types/jsonwebtoken": "^8.5.9",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3"
   }
 }
