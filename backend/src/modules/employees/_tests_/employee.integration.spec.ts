@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import * as request from "supertest";
 import server from "../../../server";
 
-describe("GET /employee", () => {
+describe("POST, GET, PATCH, DELETE /employee", () => {
   let token = "";
 
   beforeAll(async () => {
