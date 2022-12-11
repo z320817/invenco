@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/server.ts",
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles --maxWorkers=1",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
