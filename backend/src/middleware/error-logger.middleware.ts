@@ -7,7 +7,9 @@ const ErrorLoggerMiddleware = (
   response: Response,
   next: NextFunction
 ) => {
-  console.error(error);
+  console.error("Error message: ", error.message);
+  console.error("Error status: ", error.status);
+
   next(error);
 };
 

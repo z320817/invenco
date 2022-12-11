@@ -31,7 +31,12 @@ const AuthMiddleware = async (
 
 const DecodeToken = (authToken: string, next: NextFunction): JWT => {
   try {
-    return verify(authToken, process.env.BACKEND_JWT_SECRET) as JWT;
+    const decodedToken = verify(
+      authToken,
+      process.env.BACKEND_JWT_SECRET
+    ) as JWT;
+
+    return decodedToken;
   } catch {
     next(new AuthenticationTokenInvalid());
   }

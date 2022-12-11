@@ -1,7 +1,9 @@
 import { Router } from "express";
 import AuthMiddleware from "../../middleware/auth.midlleware";
-import ValidationMiddleware from "../../middleware/validation.middleware";
-import CreateEmployeeDTO from "./employee.dto";
+import InstanceIdValidator from "../../middleware/instance-id-validator.middleware";
+import RequestBodyValidator from "../../middleware/request-body-validator.middleware copy";
+import CreateEmployeeDTO from "./dto/employee.dto";
+import EmployeeIdDTO from "./dto/employee-id.dto";
 import EmployeeService from "./employee.service";
 
 class EmployeesController {
@@ -19,23 +21,25 @@ class EmployeesController {
       .get(
         `${this.path}/:id`,
         AuthMiddleware,
+        InstanceIdValidator(EmployeeIdDTO),
         this.employeeService.getEmployeeById
       )
       .patch(
         `${this.path}/:id`,
         AuthMiddleware,
-        ValidationMiddleware(CreateEmployeeDTO, true),
+        RequestBodyValidator(CreateEmployeeDTO, true),
         this.employeeService.updateEmployee
       )
       .delete(
         `${this.path}/:id`,
         AuthMiddleware,
+        InstanceIdValidator(EmployeeIdDTO),
         this.employeeService.deleteEmployee
       )
       .post(
         this.path,
         AuthMiddleware,
-        ValidationMiddleware(CreateEmployeeDTO),
+        RequestBodyValidator(CreateEmployeeDTO),
         this.employeeService.createEmployee
       );
   }

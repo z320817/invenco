@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import HttpException from "../../providers/exceptions/general/http.exception";
 import EmployeeNotFound from "../../providers/exceptions/employees/employee-not-found.exception";
-import CreateEmployeeDTO from "./employee.dto";
+import CreateEmployeeDTO from "./dto/employee.dto";
 import Employee from "./employee.interface";
 import EmployeeModel from "./employee.model";
 
@@ -11,19 +11,17 @@ class EmployeeService {
   constructor() {}
 
   public getAllEmployees = async (
-    _: Request,
-    response: Response
+    request: Request,
+    response: Response,
+    next: NextFunction
   ): Promise<void> => {
     try {
-      const posts = await this.employeeModel
-        .find()
-        .populate("employee", "-password");
+      const employees = await this.employeeModel.find();
 
-      response.send(posts);
+      response.send(employees);
     } catch {
-      throw new HttpException(
-        500,
-        "Internal Server Error: Get All Employees Error"
+      next(
+        new HttpException(500, "Internal Server Error: Get All Employees Error")
       );
     }
   };
@@ -43,9 +41,11 @@ class EmployeeService {
         next(new EmployeeNotFound(id));
       }
     } catch {
-      throw new HttpException(
-        500,
-        "Internal Server Error: Get Employee By ID Error"
+      next(
+        new HttpException(
+          500,
+          "Internal Server Error: Get Employee By ID Error"
+        )
       );
     }
   };
@@ -72,14 +72,17 @@ class EmployeeService {
         next(new EmployeeNotFound(id));
       }
     } catch {
-      throw new HttpException(
-        500,
-        "Internal Server Error: Update Employee Error"
+      next(
+        new HttpException(500, "Internal Server Error: Update Employee Error")
       );
     }
   };
 
-  public createEmployee = async (request: Request, response: Response) => {
+  public createEmployee = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) => {
     try {
       const employeeData: CreateEmployeeDTO = request.body;
       const createdEmployee = new this.employeeModel({
@@ -89,9 +92,8 @@ class EmployeeService {
 
       response.send(savedEmployee);
     } catch {
-      throw new HttpException(
-        500,
-        "Internal Server Error: Create Employee Error"
+      next(
+        new HttpException(500, "Internal Server Error: Create Employee Error")
       );
     }
   };
@@ -111,9 +113,8 @@ class EmployeeService {
         next(new EmployeeNotFound(id));
       }
     } catch {
-      throw new HttpException(
-        500,
-        "Internal Server Error: Delete Employee Error"
+      next(
+        new HttpException(500, "Internal Server Error: Delete Employee Error")
       );
     }
   };

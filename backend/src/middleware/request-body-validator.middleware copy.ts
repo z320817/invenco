@@ -5,7 +5,7 @@ import { validate, ValidationError } from "class-validator";
 import { RequestHandler } from "express";
 import HttpException from "../providers/exceptions/general/http.exception";
 
-const ValidationMiddleware = (
+const RequestBodyValidator = (
   type: any,
   skipMissingProperties = false
 ): RequestHandler => {
@@ -25,4 +25,4 @@ const ValidationMiddleware = (
   };
 };
 
-export default ValidationMiddleware;
+export default RequestBodyValidator;

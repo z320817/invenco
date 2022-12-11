@@ -1,5 +1,5 @@
 import { Router } from "express";
-import validationMiddleware from "../../middleware/request-body-validator.middleware copy";
+import validationMiddleware from "../../middleware/instance-id-validator.middleware";
 import Controller from "../../providers/interfaces/controllers.interface";
 import AuthService from "./auth.service";
 import AuthDTO from "./auth.dto";
