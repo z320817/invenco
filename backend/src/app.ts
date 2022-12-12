@@ -31,7 +31,6 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(bodyParser.json());
-    this.app.use(ErrorLoggerMiddleware);
     this.app.use(ForbiddedPathMiddleware);
   }
 
@@ -43,6 +42,7 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(ErrorMiddleware);
+    this.app.use(ErrorLoggerMiddleware);
   }
 
   private async connectToTheDatabase() {

@@ -11,7 +11,7 @@ const SeedAdminUserData = async () => {
     } = process.env;
 
     await ConnectToTheDatabase();
-    
+
     const user = await UserModel.findOne({
       email: ME_CONFIG_BASICAUTH_USERNAME,
     });
@@ -31,8 +31,7 @@ const SeedAdminUserData = async () => {
 
       await adminUser.save();
     }
-  } catch (e) {
-    console.log("seed user error: ", e)
+  } catch {
     throw new HttpException(
       500,
       "Internal Server Error: Seeding Admin Data Error"

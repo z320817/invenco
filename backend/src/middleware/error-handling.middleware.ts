@@ -15,7 +15,7 @@ const ErrorMiddleware = (
     status,
   });
 
-  next(response);
+  next(error);
 };
 
 export default ErrorMiddleware;
