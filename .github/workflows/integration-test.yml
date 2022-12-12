@@ -23,13 +23,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Run Compose Build Environment
-        run: docker-compose -f "docker-compose.yml" up
+        run: docker-compose -f "docker-compose.yml" up -d
 
       - name: Wait For Compose Build Environment Up
-        run: sleep 120s
+        run: sleep 180s
         shell: bash
 
-      - name: Wait For Compose Build Environment Up
+      - name: Run Integration Tests
         working-directory: ./backend
         run: npm run test:ci
 
