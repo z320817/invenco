@@ -55,6 +55,7 @@ class App {
     } = process.env;
 
     try {
+      mongoose.set('strictQuery', true);
       mongoose.connect(
         `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_INITDB_DATABASE}?authSource=${MONGO_INITDB_DATABASE}`
       );
