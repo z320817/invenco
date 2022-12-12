@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Compose Run Mongo
-        run: docker-compose -f "docker-compose.yml" run -p 27017:27017 --name mongo -v ./mongo/dev-volume:/data/db -v ./mongo/docker-scripts/:/docker-entrypoint-initdb.d -d mongo
+        run: docker-compose -f "docker-compose.yml" run -p 27017:27017 --name mongo -v ./mongo/volume:/data/db -v ./mongo/scripts/:/docker-entrypoint-initdb.d -d mongo
 
       - name: Compose Run Integration Tests
         run: docker-compose -f "docker-compose.yml" run -p 8500:8500 --name backend backend

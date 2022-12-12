@@ -13,8 +13,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./mongo/dev-volume:/data/db
-      - ./mongo/docker-scripts/:/docker-entrypoint-initdb.d
+      - ./mongo/volume:/data/db
+      - ./mongo/scripts/:/docker-entrypoint-initdb.d
     ports:
       - 27017:27017
     networks:
