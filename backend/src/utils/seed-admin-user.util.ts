@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import ConnectToTheDatabase from "../providers/db-connection/db-connection.provider";
 import HttpException from "../providers/exceptions/general/http.exception";
 import UserModel from "../modules/users/user.model";
 
@@ -8,6 +9,9 @@ const SeedAdminUserData = async () => {
       ME_CONFIG_BASICAUTH_USERNAME,
       ME_CONFIG_BASICAUTH_PASSWORD,
     } = process.env;
+
+    await ConnectToTheDatabase();
+    
     const user = await UserModel.findOne({
       email: ME_CONFIG_BASICAUTH_USERNAME,
     });
@@ -28,6 +32,7 @@ const SeedAdminUserData = async () => {
       await adminUser.save();
     }
   } catch (e) {
+    console.log("seed user error: ", e)
     throw new HttpException(
       500,
       "Internal Server Error: Seeding Admin Data Error"

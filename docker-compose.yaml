@@ -10,16 +10,8 @@ services:
     image: mongo:6.0.2
     container_name: mongo
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    env_file:
+      - .env
     volumes:
       - ./mongo/dev-volume:/data/db
       - ./mongo/docker_scripts/:/docker-entrypoint-initdb.d
@@ -54,19 +46,8 @@ services:
     image: backend:latest
     build: ./backend
     container_name: backend
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - BACKEND_PORT=${BACKEND_PORT}
-      - BACKEND_TEST_PORT=${BACKEND_TEST_PORT}
-      - BACKEND_JWT_SECRET=${BACKEND_JWT_SECRET}
-      - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
-      - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
+    env_file:
+      - .env
     restart: unless-stopped
     depends_on:
       - mongo

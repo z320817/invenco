@@ -1,12 +1,12 @@
 import * as express from "express";
-import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import { Server } from "http";
 import ErrorMiddleware from "./middleware/error-handling.middleware";
 import ErrorLoggerMiddleware from "./middleware/error-logger.middleware";
 import ForbiddedPathMiddleware from "./middleware/forbidden-routes.middleware";
-import MongoServerSelectionError from "./providers/exceptions/general/server-selection.exception";
+import ConnectToTheDatabase from "./providers/db-connection/db-connection.provider";
 import Controller from "./providers/interfaces/controllers.interface";
+
 
 class App {
   public app: express.Application;
@@ -45,23 +45,8 @@ class App {
     this.app.use(ErrorMiddleware);
   }
 
-  private connectToTheDatabase() {
-    const {
-      DATABASE_USER,
-      DATABASE_PASSWORD,
-      MONGO_HOST,
-      MONGO_PORT,
-      MONGO_INITDB_DATABASE,
-    } = process.env;
-
-    try {
-      mongoose.set('strictQuery', true);
-      mongoose.connect(
-        `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_INITDB_DATABASE}?authSource=${MONGO_INITDB_DATABASE}`
-      );
-    } catch {
-      throw new MongoServerSelectionError();
-    }
+  private async connectToTheDatabase() {
+   await ConnectToTheDatabase();
   }
 }
 
