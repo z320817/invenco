@@ -1,4 +1,4 @@
-name: CI
+name: Integration Test CI
 
 on:
   push:
@@ -30,15 +30,18 @@ jobs:
       - run: npm ci
 
       - name: Run Compose Build Environment
-        run: npm run build:compose
+        working-directory: ./
+        run: docker-compose -f "docker-compose.yml" up
 
       - name: Wait For Compose Build Environment Up
         run: sleep 120s
         shell: bash
 
       - name: Wait For Compose Build Environment Up
+        working-directory: backend
         run: npm run test:ci
 
       - name: Stop Containers
         if: always()
+        working-directory: ./
         run: docker-compose -f "docker-compose.yml" down
