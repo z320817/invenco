@@ -49,10 +49,6 @@ services:
     env_file:
       - .env
     restart: unless-stopped
-    depends_on:
-      - mongo
-    links:
-      - mongo
     ports:
       - 8500:8500
     networks:
