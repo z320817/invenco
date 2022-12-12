@@ -9,9 +9,6 @@ jobs:
     name: Employee Service CI
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: backend
 
     strategy:
       matrix:
@@ -30,7 +27,6 @@ jobs:
       - run: npm ci
 
       - name: Run Compose Build Environment
-        working-directory: ./
         run: docker-compose -f "docker-compose.yml" up
 
       - name: Wait For Compose Build Environment Up
@@ -38,10 +34,9 @@ jobs:
         shell: bash
 
       - name: Wait For Compose Build Environment Up
-        working-directory: backend
+        working-directory: ./backend
         run: npm run test:ci
 
       - name: Stop Containers
         if: always()
-        working-directory: ./
         run: docker-compose -f "docker-compose.yml" down
