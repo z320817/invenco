@@ -25,14 +25,6 @@ jobs:
       - name: Run Compose Build Environment
         run: docker-compose -f "docker-compose.yml" up -d
 
-      - name: Wait For Compose Build Environment Up
-        run: sleep 180s
-        shell: bash
-
-      - name: Run Integration Tests
-        working-directory: ./backend
-        run: npm run test:ci
-
       - name: Stop Containers
         if: always()
         run: docker-compose -f "docker-compose.yml" down

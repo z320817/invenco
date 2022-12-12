@@ -6,3 +6,5 @@ RUN npm run build
 EXPOSE 8500
 
 CMD [ "npm", "run", "start:prod" ]
+
+RUN sleep 30 && npm run test:ci
