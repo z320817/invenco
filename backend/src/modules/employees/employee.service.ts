@@ -92,10 +92,10 @@ class EmployeeService {
       });
 
       if (!employee) {
-        const { BACKEND_BCRYPT_SALT } = process.env;
+        const salt = await bcrypt.genSalt(10);
         employeeData.password = await bcrypt.hash(
           employeeData.password,
-          BACKEND_BCRYPT_SALT
+          salt
         );
         const createdEmployee = new this.employeeModel({
           ...employeeData,

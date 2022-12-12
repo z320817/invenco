@@ -7,17 +7,16 @@ const SeedAdminUserData = async () => {
     const {
       ME_CONFIG_BASICAUTH_USERNAME,
       ME_CONFIG_BASICAUTH_PASSWORD,
-      BACKEND_BCRYPT_SALT,
     } = process.env;
-
     const user = await UserModel.findOne({
       email: ME_CONFIG_BASICAUTH_USERNAME,
     });
 
     if (!user) {
+      const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(
         ME_CONFIG_BASICAUTH_PASSWORD,
-        BACKEND_BCRYPT_SALT
+        salt
       );
 
       const adminUser = new UserModel({
@@ -28,7 +27,7 @@ const SeedAdminUserData = async () => {
 
       await adminUser.save();
     }
-  } catch {
+  } catch (e) {
     throw new HttpException(
       500,
       "Internal Server Error: Seeding Admin Data Error"
