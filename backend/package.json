@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "ts-node ./src/server.ts",
     "build": "tsc",
-    "build:compose": "docker-compose up -d --abort-on-container-exit --build",
     "start:prod": "node build/server.js",
-    "test:ci": "jest --forceExit --detectOpenHandles --maxWorkers=1",
+    "test": "jest --forceExit --detectOpenHandles --maxWorkers=1",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },

@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Run Compose Build Environment
-        run: docker-compose -f "docker-compose.yml" up -d
+        run: docker-compose -f "docker-compose.yml" up -d --exit-code-from backend
 
       - name: Stop Containers
         if: always()
