@@ -1,4 +1,4 @@
-name: Node.js CI
+name: CI
 
 on:
   push:
@@ -6,8 +6,9 @@ on:
 
 jobs:
   build:
-    name: Backend CI
+    name: Employee Service CI
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: backend
@@ -28,10 +29,16 @@ jobs:
         uses: actions/setup-node@v3
       - run: npm ci
 
-      - name: Run build
-        uses: actions/setup-node@v3
-      - run: npm run build
-      
-      - name: Run tests
-        uses: actions/setup-node@v3
-      - run: npm run test
+      - name: Run Compose Build Environment
+        run: npm run build:compose
+
+      - name: Wait For Compose Build Environment Up
+        run: sleep 120s
+        shell: bash
+
+      - name: Wait For Compose Build Environment Up
+        run: npm run test:ci
+
+      - name: Stop Containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
